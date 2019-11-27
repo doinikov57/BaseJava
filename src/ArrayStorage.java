@@ -1,9 +1,12 @@
+//import java.lang.reflect.Array;
+import java.util.Arrays;
+
 /**
- * Array based storage for Resumes
+ *    Array based  storage for Resumes
  */
 public class ArrayStorage {
     private int numOfResumes;
-    Resume[] storage = new Resume[10000];
+    private Resume[] storage = new Resume[10000];
 
     void clear() {
         // clear all the references to Resume objects
@@ -26,7 +29,7 @@ public class ArrayStorage {
         Resume resume = null;
         int i;
         for (i = 0; i <= numOfResumes - 1; i++) {
-            if (storage[i].uuid == uuid) {
+            if (storage[i].uuid.equals(uuid)) {
                 resume = storage[i];
             }
         }
@@ -37,11 +40,11 @@ public class ArrayStorage {
         int i;
         int index = -1; // uuid not found
         for (i = 0; i <= numOfResumes - 1; i++) {
-            if (storage[i].uuid == uuid) {
+            if (storage[i].uuid.equals(uuid)) {
                 // in case it is the last array element: i = storage.length -1
                 storage[i] = null;
                 index = i;
-                i = numOfResumes; // to leave the for cycle
+                i = numOfResumes; // to leave the for
             }
         }
         // if uuid is found at [index]
@@ -58,11 +61,8 @@ public class ArrayStorage {
      * @return array, contains only Resumes in storage (without null)
      */
     Resume[] getAll() {
-        Resume[] allResumes = new Resume[numOfResumes];
-        for (int i = 0; i < numOfResumes; i++) {
-            allResumes[i] = storage[i];
-        }
-        return allResumes;
+        //Resume[] allResumes = Arrays.copyOf(storage, numOfResumes);
+        return Arrays.copyOf(storage, numOfResumes);
     }
 
     int size() {
