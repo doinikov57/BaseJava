@@ -1,8 +1,9 @@
 //import java.lang.reflect.Array;
+
 import java.util.Arrays;
 
 /**
- *    Array based  storage for Resumes
+ * Array based  storage for Resumes
  */
 public class ArrayStorage {
     private int numOfResumes;
@@ -27,8 +28,7 @@ public class ArrayStorage {
 
     Resume get(String uuid) {
         Resume resume = null;
-        int i;
-        for (i = 0; i <= numOfResumes - 1; i++) {
+        for (int i = 0; i < numOfResumes; i++) {
             if (storage[i].uuid.equals(uuid)) {
                 resume = storage[i];
             }
@@ -39,21 +39,20 @@ public class ArrayStorage {
     void delete(String uuid) {
         int i;
         int index = -1; // uuid not found
-        for (i = 0; i <= numOfResumes - 1; i++) {
+        for (i = 0; i < numOfResumes; i++) {
             if (storage[i].uuid.equals(uuid)) {
-                // in case it is the last array element: i = storage.length -1
-                storage[i] = null;
                 index = i;
-                i = numOfResumes; // to leave the for
+                break;
             }
         }
         // if uuid is found at [index]
-        if (index >= 0) {
-//                System.out.println("Delete uuid:"+ uuid +" index:" + index +" num:" + numOfResumes);
+        if (index > -1) {
+            System.out.println("Delete uuid:" + uuid + " index:" + index + " num:" + numOfResumes);
             for (i = index; i < numOfResumes - 1; i++) {
                 storage[i] = storage[i + 1];
             }
             numOfResumes--;
+            storage[storage.length - 1] = null;
         }
     }
 
@@ -61,7 +60,6 @@ public class ArrayStorage {
      * @return array, contains only Resumes in storage (without null)
      */
     Resume[] getAll() {
-        //Resume[] allResumes = Arrays.copyOf(storage, numOfResumes);
         return Arrays.copyOf(storage, numOfResumes);
     }
 
