@@ -11,7 +11,7 @@ public class ArrayStorage {
     private int numOfResumes;
     private Resume[] storage = new Resume[10000];
 
-    public void clear() {
+    public void  clear() {
         // clear all the references to Resume objects
         if (numOfResumes > 0) {
             Arrays.fill(storage, 0, numOfResumes - 1, null);
