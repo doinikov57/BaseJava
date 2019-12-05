@@ -5,20 +5,28 @@ import ru.javawebinar.basejava.model.Resume;
 import java.util.Arrays;
 
 /**
- * Array based  storage for Resumes.
+ * Array based storage for Resumes.
  */
 public class ArrayStorage {
     private int numOfResumes;
     private Resume[] storage = new Resume[10000];
 
-    public void  clear() {
-        // clear all the references to Resume objects
-        if (numOfResumes > 0) {
+    /**
+     * clear storage.
+     * (clear all the references to Resume objects)
+     */
+    public void clear() {
+         if (numOfResumes > 0) {
             Arrays.fill(storage, 0, numOfResumes - 1, null);
         }
         numOfResumes = 0;
     }
 
+    /**
+     * add Resume r
+     * check if storage is not full
+     * check if uuid already used
+     */
     public void save(Resume r) {
         if (numOfResumes < storage.length) {
             // check if uuid of the resume r is already used
@@ -36,6 +44,9 @@ public class ArrayStorage {
         }
     }
 
+    /**
+     * update Resume with the @uuid if exists
+     */
     public void update(Resume r) {
         // check if uuid of the resume r is present
         int index = getIndex(r.getUuid());
@@ -47,7 +58,9 @@ public class ArrayStorage {
         }
     }
 
-
+    /**
+     * @return  Resume with the @uuid if exists
+     */
     public Resume get(String uuid) {
         Resume resume = null;
         // check if resume with the uuid is present
@@ -61,6 +74,9 @@ public class ArrayStorage {
         return resume;
     }
 
+    /**
+     * delete Resume with the @uuid
+     */
     public void delete(String uuid) {
         // check if resume is present
         int index = getIndex(uuid);
@@ -84,18 +100,17 @@ public class ArrayStorage {
         return numOfResumes;
     }
 
-    /*
+    /**
      * @return int index (position) of the resume with the uuid in the storage
-     * @return -1 if resume with id is not present in the storage
+     *          -1 if resume with uuid is not present
      */
     private int getIndex(String uuid) {
-        int index = -1;
+        // int index = -1;
         for (int i = 0; i < numOfResumes; i++) {
             if (storage[i].getUuid().equals(uuid)) {
-                index = i;
-                break;
+                return i;
             }
         }
-        return index;
+        return -1;
     }
 }
