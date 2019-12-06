@@ -17,7 +17,7 @@ public class ArrayStorage {
      */
     public void clear() {
         if (numOfResumes > 0) {
-            Arrays.fill(storage, 0, numOfResumes - 1, null);
+            Arrays.fill(storage, 0, numOfResumes, null);
         }
         numOfResumes = 0;
     }
