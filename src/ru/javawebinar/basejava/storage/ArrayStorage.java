@@ -16,7 +16,7 @@ public class ArrayStorage {
      * (clear all the references to Resume objects)
      */
     public void clear() {
-         if (numOfResumes > 0) {
+        if (numOfResumes > 0) {
             Arrays.fill(storage, 0, numOfResumes - 1, null);
         }
         numOfResumes = 0;
@@ -54,17 +54,16 @@ public class ArrayStorage {
     }
 
     /**
-     * @return  Resume with the @uuid if exists
+     * @return Resume with the @uuid if exists
      */
     public Resume get(String uuid) {
-        Resume resume = null;
         int index = getIndex(uuid);
         if (index > -1) {
-            resume = storage[index];
+            return storage[index];
         } else {
             System.out.println(" ERROR: Resume not present UUID " + uuid);
         }
-        return resume;
+        return null;
     }
 
     /**
@@ -94,7 +93,7 @@ public class ArrayStorage {
 
     /**
      * @return int index (position) of the resume with the uuid in the storage
-     *          -1 if resume with uuid is not present
+     * -1 if resume with uuid is not present
      */
     private int getIndex(String uuid) {
         for (int i = 0; i < numOfResumes; i++) {
