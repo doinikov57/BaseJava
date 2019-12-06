@@ -9,7 +9,7 @@ import java.util.Arrays;
  */
 public class ArrayStorage {
     private int numOfResumes;
-    private Resume[] storage = new Resume[10000];
+    private Resume[] storage = new Resume[10_000];
 
     /**
      * clear storage.
@@ -27,16 +27,13 @@ public class ArrayStorage {
      * check if storage is not full
      * check if uuid already used
      */
-    public void save(Resume r) {
+    public void save(Resume resume) {
         if (numOfResumes < storage.length) {
-            // check if uuid of the resume r is already used
-            int index = getIndex(r.getUuid());
+            int index = getIndex(resume.getUuid());
             if (index > -1) {
-                // resume with the uuid is already used
-                System.out.println(" ERROR: already used UUID: " + r.getUuid());
+                System.out.println(" ERROR: already used UUID: " + resume.getUuid());
             } else {
-                // add resume to the storage
-                storage[numOfResumes] = r;
+                storage[numOfResumes] = resume;
                 numOfResumes++;
             }
         } else {
@@ -47,14 +44,12 @@ public class ArrayStorage {
     /**
      * update Resume with the @uuid if exists
      */
-    public void update(Resume r) {
-        // check if uuid of the resume r is present
-        int index = getIndex(r.getUuid());
+    public void update(Resume resume) {
+        int index = getIndex(resume.getUuid());
         if (index > -1) {
-            // update  the resume
-            storage[index] = r;
+            storage[index] = resume;
         } else {
-            System.out.println(" update ERROR: Resume not present UUID" + r.getUuid());
+            System.out.println(" update ERROR: Resume not present UUID" + resume.getUuid());
         }
     }
 
@@ -63,10 +58,8 @@ public class ArrayStorage {
      */
     public Resume get(String uuid) {
         Resume resume = null;
-        // check if resume with the uuid is present
         int index = getIndex(uuid);
         if (index > -1) {
-            // resume uuid is present
             resume = storage[index];
         } else {
             System.out.println(" ERROR: Resume not present UUID " + uuid);
@@ -78,7 +71,6 @@ public class ArrayStorage {
      * delete Resume with the @uuid
      */
     public void delete(String uuid) {
-        // check if resume is present
         int index = getIndex(uuid);
         if (index > -1) {
             storage[index] = storage[numOfResumes - 1];
@@ -105,7 +97,6 @@ public class ArrayStorage {
      *          -1 if resume with uuid is not present
      */
     private int getIndex(String uuid) {
-        // int index = -1;
         for (int i = 0; i < numOfResumes; i++) {
             if (storage[i].getUuid().equals(uuid)) {
                 return i;
