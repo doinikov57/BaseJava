@@ -7,7 +7,11 @@ import java.util.Arrays;
 /**
  * Array based storage for Resumes.
  */
-public class ArrayStorage extends AbstractArrayStorage {
+public class SortedArrayStorage implements Storage {
+
+    private static final int STORAGE_LIMIT = 10000;
+    private int numOfResumes;
+    private Resume[] storage = new Resume[STORAGE_LIMIT];
 
     public void clear() {
         if (numOfResumes > 0) Arrays.fill(storage, 0, numOfResumes, null);
