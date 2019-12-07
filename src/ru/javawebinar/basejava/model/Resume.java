@@ -8,11 +8,6 @@ public class Resume {
     // Unique identifier
     private String uuid;
 
-//    public Resume(String id) {
-//        uuid = this.uuid;
-//    }
-
-
     public String getUuid() {
         return uuid;
     }
