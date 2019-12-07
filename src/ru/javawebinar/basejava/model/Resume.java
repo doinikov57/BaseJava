@@ -3,7 +3,7 @@ package ru.javawebinar.basejava.model;
 import java.util.Objects;
 
 /**
- * Initial resume class
+ * ru.javawebinar.basejava.model.Resume class
  */
 public class Resume {
 
