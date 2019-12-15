@@ -1,5 +1,8 @@
 package ru.javawebinar.basejava.storage;
 
+import ru.javawebinar.basejava.Exception.ExistStorageException;
+import ru.javawebinar.basejava.Exception.NotExistStorageException;
+import ru.javawebinar.basejava.Exception.StorageException;
 import ru.javawebinar.basejava.model.Resume;
 
 import java.util.Arrays;
@@ -9,7 +12,7 @@ import java.util.Arrays;
  */
 public abstract class AbstractArrayStorage implements Storage {
 
-    private static final int STORAGE_LIMIT = 10_000;
+    protected static final int STORAGE_LIMIT = 10_000;
     protected int numOfResumes;
     protected Resume[] storage = new Resume[STORAGE_LIMIT];
 
@@ -22,13 +25,13 @@ public abstract class AbstractArrayStorage implements Storage {
         if (numOfResumes < storage.length) {
             int index = getIndex(resume.getUuid());
             if (index > -1) {
-                System.out.println(" ERROR: already used UUID: " + resume.getUuid());
+                throw new ExistStorageException(resume.getUuid());
             } else {
                 insertResume(resume, index);
                 numOfResumes++;
             }
         } else {
-            System.out.println("ERROR: Storage is full!");
+            throw new StorageException("Storage overflow",resume.getUuid());
         }
     }
 
@@ -37,7 +40,7 @@ public abstract class AbstractArrayStorage implements Storage {
         if (index > -1) {
             storage[index] = resume;
         } else {
-            System.out.println(" update ERROR: Resume not present UUID" + resume.getUuid());
+            throw new NotExistStorageException(resume.getUuid());
         }
     }
 
@@ -48,7 +51,7 @@ public abstract class AbstractArrayStorage implements Storage {
             storage[numOfResumes - 1] = null;
             numOfResumes--;
         } else {
-            System.out.println(" ERROR: Resume not present UUID " + uuid);
+            throw new NotExistStorageException(uuid);
         }
     }
 
@@ -68,8 +71,7 @@ public abstract class AbstractArrayStorage implements Storage {
         if (index > -1) {
             return storage[index];
         } else {
-            System.out.println(" ERROR: Resume not present UUID " + uuid);
-            return null;
+            throw new NotExistStorageException(uuid);
         }
     }
 
