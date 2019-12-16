@@ -52,9 +52,10 @@ public abstract class AbstractArrayStorageTest {
 
     @Test(expected = StorageException.class)
     public void saveOverflow() {
+        storage.clear();
         try {
-            for (int i = 0; i < STORAGE_LIMIT - 3; i++) storage.save(new Resume());
-        } catch (Exception e) {
+            for (int i = 0; i < STORAGE_LIMIT; i++) storage.save(new Resume());
+        } catch (StorageException e) {
             fail("Exception " + e.getMessage() + " should not be thrown");
         }
         storage.save(new Resume());
@@ -63,7 +64,7 @@ public abstract class AbstractArrayStorageTest {
     @Test
     public void update() {
         storage.update(RESUME_2);
-        Assert.assertEquals(RESUME_2, storage.get(UUID_2));
+        Assert.assertTrue(RESUME_2 == storage.get(UUID_2));
     }
 
     @Test(expected = NotExistStorageException.class)
