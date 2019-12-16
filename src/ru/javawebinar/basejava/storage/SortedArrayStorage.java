@@ -12,7 +12,6 @@ public class SortedArrayStorage extends AbstractArrayStorage {
     @Override
     protected int getIndex(String uuid) {
         Resume searchKey = new Resume(uuid);
-//        searchKey.setUuid(uuid);
         return binarySearch(storage, 0, numOfResumes, searchKey);
     }
 

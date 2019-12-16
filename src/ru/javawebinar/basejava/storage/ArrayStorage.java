@@ -7,7 +7,7 @@ import ru.javawebinar.basejava.model.Resume;
  */
 public class ArrayStorage extends AbstractArrayStorage {
 
-      protected int getIndex(String uuid) {
+    protected int getIndex(String uuid) {
         for (int i = 0; i < numOfResumes; i++) {
             if (storage[i].getUuid().equals(uuid)) {
                 return i;
@@ -23,6 +23,6 @@ public class ArrayStorage extends AbstractArrayStorage {
 
     @Override
     protected void fillDeletedResume(int index) {
-          storage[index] = storage [numOfResumes-1];
+        storage[index] = storage[numOfResumes - 1];
     }
 }

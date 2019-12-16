@@ -31,7 +31,7 @@ public abstract class AbstractArrayStorage implements Storage {
                 numOfResumes++;
             }
         } else {
-            throw new StorageException("Storage overflow",resume.getUuid());
+            throw new StorageException("Storage overflow", resume.getUuid());
         }
     }
 
