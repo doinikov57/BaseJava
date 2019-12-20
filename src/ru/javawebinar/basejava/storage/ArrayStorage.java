@@ -25,4 +25,15 @@ public class ArrayStorage extends AbstractArrayStorage {
     protected void fillDeletedResume(int index) {
         storage[index] = storage[numOfResumes - 1];
     }
+
 }
+
+//    @Override
+//    public int cGetIndex(Object uuidKey) {
+//        return 0;
+//    }
+//
+//    @Override
+//    public Resume pickResume(Object IndexUuid) {
+//        return null;
+//    }

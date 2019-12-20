@@ -30,4 +30,16 @@ public class SortedArrayStorage extends AbstractArrayStorage {
             System.arraycopy(storage, index + 1, storage, index, numMoved);
         }
     }
+
+
+//
+//    @Override
+//    public int cGetIndex(Object uuidKey) {
+//        return 0;
+//    }
+//
+//    @Override
+//    public Resume pickResume(Object IndexUuid) {
+//        return null;
+//    }
 }

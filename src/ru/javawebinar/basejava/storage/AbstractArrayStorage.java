@@ -10,7 +10,7 @@ import java.util.Arrays;
 /**
  * Array based storage for Resumes.
  */
-public abstract class AbstractArrayStorage implements Storage {
+public abstract class AbstractArrayStorage extends AbstractStorage {
 
     protected static final int STORAGE_LIMIT = 10_000;
     protected int numOfResumes;
@@ -21,38 +21,19 @@ public abstract class AbstractArrayStorage implements Storage {
         numOfResumes = 0;
     }
 
-    public void save(Resume resume) {
-        if (numOfResumes < storage.length) {
-            int index = getIndex(resume.getUuid());
-            if (index > -1) {
-                throw new ExistStorageException(resume.getUuid());
-            } else {
-                insertResume(resume, index);
-                numOfResumes++;
-            }
-        } else {
+    public void cSave(Resume resume, Object keyIndexUuid) {
+        if (numOfResumes > storage.length - 1) {
             throw new StorageException("Storage overflow", resume.getUuid());
+        } else {
+            insertResume(resume, (Integer) keyIndexUuid);
+            numOfResumes++;
         }
     }
 
-    public void update(Resume resume) {
-        int index = getIndex(resume.getUuid());
-        if (index > -1) {
-            storage[index] = resume;
-        } else {
-            throw new NotExistStorageException(resume.getUuid());
-        }
-    }
-
-    public void delete(String uuid) {
-        int index = getIndex(uuid);
-        if (index > -1) {
-            fillDeletedResume(index);
-            storage[numOfResumes - 1] = null;
-            numOfResumes--;
-        } else {
-            throw new NotExistStorageException(uuid);
-        }
+    protected void cDelete(Object index) {
+        fillDeletedResume((Integer) index);
+        storage[numOfResumes - 1] = null;
+        numOfResumes--;
     }
 
     /**
@@ -66,13 +47,30 @@ public abstract class AbstractArrayStorage implements Storage {
         return numOfResumes;
     }
 
-    public Resume get(String uuid) {
+    public Object cGetIndexIfExist(String uuid) {
         int index = getIndex(uuid);
         if (index > -1) {
-            return storage[index];
+            return index;
         } else {
             throw new NotExistStorageException(uuid);
         }
+    }
+
+    public Object cGetIndexIfNotExist(String uuid) {
+        int index = getIndex(uuid);
+        if (index < 0) {
+            return index;
+        } else {
+            throw new ExistStorageException(uuid);
+        }
+    }
+
+    public Resume pickResume(Object index) {
+        return storage[(Integer) index];
+    }
+
+    protected void cUpdate(Object index, Resume resume) {
+        storage[(Integer)index] = resume;
     }
 
     protected abstract int getIndex(String uuid);
