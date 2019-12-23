@@ -15,7 +15,7 @@ public class MapStorage extends AbstractStorage {
 
     @Override
     public Resume[] getAll() {
-        return storage.values().toArray(new Resume[storage.size()]);
+        return storage.values().toArray(new Resume[0]);
     }
 
     @Override
@@ -25,6 +25,7 @@ public class MapStorage extends AbstractStorage {
 
     @Override
     protected void doSave(Resume resume, Object keyUuid) {
+
         storage.put((String) keyUuid, resume);
     }
 
