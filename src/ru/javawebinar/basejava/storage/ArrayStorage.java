@@ -7,7 +7,7 @@ import ru.javawebinar.basejava.model.Resume;
  */
 public class ArrayStorage extends AbstractArrayStorage {
 
-    protected int getIndex(String uuid) {
+    protected Object getIndex(String uuid) {
         for (int i = 0; i < numOfResumes; i++) {
             if (storage[i].getUuid().equals(uuid)) {
                 return i;
@@ -27,13 +27,3 @@ public class ArrayStorage extends AbstractArrayStorage {
     }
 
 }
-
-//    @Override
-//    public int cGetIndex(Object uuidKey) {
-//        return 0;
-//    }
-//
-//    @Override
-//    public Resume pickResume(Object IndexUuid) {
-//        return null;
-//    }

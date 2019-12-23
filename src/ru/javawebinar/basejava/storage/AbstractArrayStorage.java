@@ -1,7 +1,5 @@
 package ru.javawebinar.basejava.storage;
 
-import ru.javawebinar.basejava.Exception.ExistStorageException;
-import ru.javawebinar.basejava.Exception.NotExistStorageException;
 import ru.javawebinar.basejava.Exception.StorageException;
 import ru.javawebinar.basejava.model.Resume;
 
@@ -21,7 +19,7 @@ public abstract class AbstractArrayStorage extends AbstractStorage {
         numOfResumes = 0;
     }
 
-    public void cSave(Resume resume, Object keyIndexUuid) {
+    public void doSave(Resume resume, Object keyIndexUuid) {
         if (numOfResumes > storage.length - 1) {
             throw new StorageException("Storage overflow", resume.getUuid());
         } else {
@@ -30,7 +28,7 @@ public abstract class AbstractArrayStorage extends AbstractStorage {
         }
     }
 
-    protected void cDelete(Object index) {
+    protected void doDelete(Object index) {
         fillDeletedResume((Integer) index);
         storage[numOfResumes - 1] = null;
         numOfResumes--;
@@ -47,35 +45,22 @@ public abstract class AbstractArrayStorage extends AbstractStorage {
         return numOfResumes;
     }
 
-    public Object cGetIndexIfExist(String uuid) {
-        int index = getIndex(uuid);
-        if (index > -1) {
-            return index;
-        } else {
-            throw new NotExistStorageException(uuid);
-        }
-    }
-
-    public Object cGetIndexIfNotExist(String uuid) {
-        int index = getIndex(uuid);
-        if (index < 0) {
-            return index;
-        } else {
-            throw new ExistStorageException(uuid);
-        }
-    }
-
     public Resume pickResume(Object index) {
         return storage[(Integer) index];
     }
 
-    protected void cUpdate(Object index, Resume resume) {
-        storage[(Integer)index] = resume;
+    protected void doUpdate(Object index, Resume resume) {
+        storage[(Integer) index] = resume;
     }
 
-    protected abstract int getIndex(String uuid);
+    protected abstract Object getIndex(String uuid);
 
     protected abstract void insertResume(Resume resume, int index);
 
     protected abstract void fillDeletedResume(int index);
+
+    @Override
+    protected boolean isExist(Object keyIndex) {
+        return ((Integer) keyIndex > -1);
+    }
 }
