@@ -5,11 +5,7 @@ import org.junit.Before;
 import org.junit.Test;
 import ru.javawebinar.basejava.Exception.ExistStorageException;
 import ru.javawebinar.basejava.Exception.NotExistStorageException;
-import ru.javawebinar.basejava.Exception.StorageException;
 import ru.javawebinar.basejava.model.Resume;
-
-import static org.junit.Assert.fail;
-import static ru.javawebinar.basejava.storage.AbstractArrayStorage.STORAGE_LIMIT;
 
 public abstract class AbstractStorageTest {
 
@@ -48,17 +44,6 @@ public abstract class AbstractStorageTest {
         storage.save(resumeTestSV);
         assertSize(4);
         Assert.assertEquals(resumeTestSV, storage.get(NEW_UUID));
-    }
-
-    @Test(expected = StorageException.class)
-    public void saveOverflow() {
-        storage.clear();
-        try {
-            for (int i = 0; i < STORAGE_LIMIT; i++) storage.save(new Resume());
-        } catch (StorageException e) {
-            fail("Exception " + e.getMessage() + " should not be thrown");
-        }
-        storage.save(new Resume());
     }
 
     @Test

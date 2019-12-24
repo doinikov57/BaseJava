@@ -7,7 +7,7 @@ import java.util.Map;
 
 public class MapStorage extends AbstractStorage {
 
-    Map<String, Resume> storage = new HashMap<>();
+    private Map<String, Resume> storage = new HashMap<>();
 
     public void clear() {
         storage.clear();
@@ -36,7 +36,7 @@ public class MapStorage extends AbstractStorage {
 
     @Override
     protected Resume doGet(Object keyUuid) {
-        return storage.get((String)keyUuid);
+        return storage.get((String) keyUuid);
     }
 
     @Override

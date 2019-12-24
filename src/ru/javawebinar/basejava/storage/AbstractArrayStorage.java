@@ -36,7 +36,7 @@ public abstract class AbstractArrayStorage extends AbstractStorage {
     }
 
     @Override
-    public void doSave(Resume resume, Object keyIndexUuid) {
+    protected void doSave(Resume resume, Object keyIndexUuid) {
         if (numOfResumes > storage.length - 1) {
             throw new StorageException("Storage overflow", resume.getUuid());
         } else {
