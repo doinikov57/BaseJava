@@ -4,7 +4,15 @@ import ru.javawebinar.basejava.Exception.ExistStorageException;
 import ru.javawebinar.basejava.Exception.NotExistStorageException;
 import ru.javawebinar.basejava.model.Resume;
 
+import java.util.Comparator;
+
 public abstract class AbstractStorage implements Storage {
+
+    protected static final Comparator<Resume> UUID_COMPARATOR =
+            (n1, n2) -> n1.getUuid().compareTo(n2.getUuid());
+
+//    protected static final Comparator<Resume> NAME_COMPARATOR =
+//            (n1, n2) -> n1.getFullName().compareTo(n2.getFullName());
 
     protected abstract void doSave(Resume resume, Object keyIndexUuid);
 

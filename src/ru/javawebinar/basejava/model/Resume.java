@@ -6,10 +6,12 @@ import java.util.UUID;
 /**
  * ru.javawebinar.basejava.model.Resume class
  */
-public class Resume implements Comparable<Resume>{
+public class Resume implements Comparable<Resume> {
 
     // Unique identifier
     private String uuid;
+
+    private String fullName;
 
     public Resume() {
         this(UUID.randomUUID().toString());
@@ -47,6 +49,16 @@ public class Resume implements Comparable<Resume>{
 
     @Override
     public int compareTo(Resume r) {
-        return uuid.compareTo(r.uuid);
+        int compareResult = fullName.compareTo(r.getFullName());
+        if (compareResult == 0) return uuid.compareTo(r.getUuid());
+        else return compareResult;
+    }
+
+    public String getFullName() {
+        return fullName;
+    }
+
+    public void setFullName(String fullName) {
+        this.fullName = fullName;
     }
 }
