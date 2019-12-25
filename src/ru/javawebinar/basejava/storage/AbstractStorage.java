@@ -27,12 +27,12 @@ public abstract class AbstractStorage implements Storage {
     protected abstract Resume doGet(Object keyIndexUuid);
 
     public void save(Resume resume) {
-        Object keyIndexUuid = getIndexIfNotExist(resume);
+        Object keyIndexUuid = getIndexIfNotExist(resume.getUuid());
         doSave(resume, keyIndexUuid);
     }
 
     public void update(Resume resume) {
-        Object keyIndexUuid = getIndexIfExist(resume);
+        Object keyIndexUuid = getIndexIfExist(resume.getUuid());
         doUpdate(keyIndexUuid, resume);
     }
 
@@ -42,14 +42,6 @@ public abstract class AbstractStorage implements Storage {
 
     public void delete(String uuid) {
         doDelete(getIndexIfExist(uuid));
-    }
-
-    private Object getIndexIfExist(Resume resume) {
-        return getIndexIfExist(resume.getUuid());
-    }
-
-    private Object getIndexIfNotExist(Resume resume) {
-        return getIndexIfNotExist(resume.getUuid());
     }
 
     private Object getIndexIfExist(String uuid) {
