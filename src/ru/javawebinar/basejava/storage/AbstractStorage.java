@@ -4,15 +4,10 @@ import ru.javawebinar.basejava.Exception.ExistStorageException;
 import ru.javawebinar.basejava.Exception.NotExistStorageException;
 import ru.javawebinar.basejava.model.Resume;
 
-import java.util.Comparator;
+import java.util.Collections;
+import java.util.List;
 
 public abstract class AbstractStorage implements Storage {
-
-    protected static final Comparator<Resume> UUID_COMPARATOR =
-            (n1, n2) -> n1.getUuid().compareTo(n2.getUuid());
-
-//    protected static final Comparator<Resume> NAME_COMPARATOR =
-//            (n1, n2) -> n1.getFullName().compareTo(n2.getFullName());
 
     protected abstract void doSave(Resume resume, Object keyIndexUuid);
 
@@ -22,7 +17,7 @@ public abstract class AbstractStorage implements Storage {
 
     protected abstract boolean isExist(Object keyIndex);
 
-    protected abstract Object getIndex(String uuid);
+    protected abstract Object getSearchKey(String uuid);
 
     protected abstract Resume doGet(Object keyIndexUuid);
 
@@ -44,14 +39,23 @@ public abstract class AbstractStorage implements Storage {
         doDelete(getIndexIfExist(uuid));
     }
 
+    @Override
+    public List<Resume> getAllSorted() {
+        List<Resume> list = getResumeList();
+        Collections.sort(list);
+        return list;
+    }
+
+    protected abstract List<Resume> getResumeList();
+
     private Object getIndexIfExist(String uuid) {
-        Object keyIndex = getIndex(uuid);
+        Object keyIndex = getSearchKey(uuid);
         if (isExist(keyIndex)) return keyIndex;
         else throw new NotExistStorageException(uuid);
     }
 
     private Object getIndexIfNotExist(String uuid) {
-        Object keyIndex = getIndex(uuid);
+        Object keyIndex = getSearchKey(uuid);
         if (isExist(keyIndex)) throw new ExistStorageException(uuid);
         else return keyIndex;
     }

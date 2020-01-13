@@ -18,10 +18,15 @@ public abstract class AbstractStorageTest {
     private final static String UUID_3 = "uuid3";
     private final static String NEW_UUID = "New UUID";
 
-    private final static Resume RESUME_1 = new Resume(UUID_1);
-    private final static Resume RESUME_2 = new Resume(UUID_2);
-    private final static Resume RESUME_3 = new Resume(UUID_3);
-    private final static Resume RESUME_4 = new Resume(NEW_UUID);
+    private final static String NAME_1 = "Dmitry";
+    private final static String NAME_2 = "Alena";
+    private final static String NAME_3 = "Sergey";
+    private final static String NEW_Name = "Olga";
+
+    private final static Resume RESUME_1 = new Resume(UUID_1, NAME_1);
+    private final static Resume RESUME_2 = new Resume(UUID_2, NAME_2);
+    private final static Resume RESUME_3 = new Resume(UUID_3, NAME_3);
+    private final static Resume RESUME_4 = new Resume(NEW_UUID, NEW_Name);
 
     AbstractStorageTest(Storage storage) {
         this.storage = storage;
@@ -30,11 +35,6 @@ public abstract class AbstractStorageTest {
     @Before
     public void setUp() {
         storage.clear();
-        RESUME_1.setFullName("Dmitry");
-        RESUME_2.setFullName("Alena");
-        RESUME_3.setFullName("Sergey");
-        RESUME_4.setFullName("Olga");
-
         storage.save(RESUME_1);
         storage.save(RESUME_2);
         storage.save(RESUME_3);
@@ -56,7 +56,7 @@ public abstract class AbstractStorageTest {
 
     @Test
     public void update() {
-        Resume ResumeTestUD = new Resume(UUID_2);
+        Resume ResumeTestUD = new Resume(UUID_2, NAME_2);
         storage.update(ResumeTestUD);
         Assert.assertSame(ResumeTestUD, storage.get(UUID_2));
     }

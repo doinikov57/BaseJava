@@ -27,8 +27,13 @@ public class MainArray {
                 continue;
             }
             String uuid = null;
-            if (params.length == 2) {
+            String fullName = null;
+            if (params.length == 3) {
                 uuid = params[1].intern();
+                fullName = params[2].intern();
+            }
+            else if (params.length == 2){
+                fullName = params[1].intern();
             }
             switch (params[0]) {
                 case "list":
@@ -38,12 +43,12 @@ public class MainArray {
                     System.out.println(ARRAY_STORAGE.size());
                     break;
                 case "save":
-                    r = new Resume(uuid);
+                    r = new Resume(fullName);
                     ARRAY_STORAGE.save(r);
                     printAll();
                     break;
                 case "update":
-                    r = new Resume(uuid);
+                    r = new Resume(uuid,fullName);
                     ARRAY_STORAGE.update(r);
                     printAll();
                     break;
