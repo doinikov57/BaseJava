@@ -21,20 +21,26 @@ public abstract class AbstractStorage implements Storage {
 
     protected abstract Resume doGet(Object keyIndexUuid);
 
+    protected abstract List<Resume> getResumeList();
+
+    @Override
     public void save(Resume resume) {
         Object keyIndexUuid = getIndexIfNotExist(resume.getUuid());
         doSave(resume, keyIndexUuid);
     }
 
+    @Override
     public void update(Resume resume) {
         Object keyIndexUuid = getIndexIfExist(resume.getUuid());
         doUpdate(keyIndexUuid, resume);
     }
 
+    @Override
     public Resume get(String uuid) {
         return doGet(getIndexIfExist(uuid));
     }
 
+    @Override
     public void delete(String uuid) {
         doDelete(getIndexIfExist(uuid));
     }
@@ -45,8 +51,6 @@ public abstract class AbstractStorage implements Storage {
         Collections.sort(list);
         return list;
     }
-
-    protected abstract List<Resume> getResumeList();
 
     private Object getIndexIfExist(String uuid) {
         Object keyIndex = getSearchKey(uuid);

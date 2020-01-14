@@ -28,10 +28,11 @@ public abstract class AbstractArrayStorage extends AbstractStorage {
      * @return array, contains only Resumes in storage (without null)
      */
     @Override
-    public List<Resume> getResumeList() {
+    protected List<Resume> getResumeList() {
         return Arrays.asList(Arrays.copyOf(storage, numOfResumes));
     }
 
+    @Override
     public int size() {
         return numOfResumes;
     }

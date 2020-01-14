@@ -11,7 +11,7 @@ import static java.util.Arrays.binarySearch;
  */
 public class SortedArrayStorage extends AbstractArrayStorage {
 
-    protected static final Comparator<Resume> UUID_COMPARATOR =
+    private static final Comparator<Resume> UUID_COMPARATOR =
             (n1, n2) -> n1.getUuid().compareTo(n2.getUuid());
 
     @Override

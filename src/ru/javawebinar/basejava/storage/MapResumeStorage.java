@@ -11,12 +11,13 @@ public class MapResumeStorage extends AbstractStorage {
 
     private Map<String, Resume> storage = new HashMap<>();
 
+    @Override
     public void clear() {
         storage.clear();
     }
 
     @Override
-    public List<Resume> getResumeList() {
+    protected List<Resume> getResumeList() {
         return new ArrayList<>(storage.values());
     }
 
@@ -47,7 +48,7 @@ public class MapResumeStorage extends AbstractStorage {
 
     @Override
     protected boolean isExist(Object keyName) {
-        return !(keyName == null);
+        return (keyName != null);
     }
 
     @Override

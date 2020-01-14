@@ -14,13 +14,14 @@ public class ListStorage extends AbstractStorage {
         storage.clear();
     }
 
+    @Override
     public int size() {
         return storage.size();
     }
 
     @Override
     protected List<Resume> getResumeList() {
-        return storage;
+        return new ArrayList<>(storage);
     }
 
     @Override
@@ -28,6 +29,7 @@ public class ListStorage extends AbstractStorage {
         storage.add(resume);
     }
 
+    @Override
     protected void doUpdate(Object index, Resume resume) {
         storage.set((Integer) index, resume);
     }

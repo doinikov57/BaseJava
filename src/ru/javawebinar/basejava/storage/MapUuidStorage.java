@@ -11,12 +11,13 @@ public class MapUuidStorage extends AbstractStorage {
 
     private Map<String, Resume> storage = new HashMap<>();
 
+    @Override
     public void clear() {
         storage.clear();
     }
 
     @Override
-    public List<Resume> getResumeList() {
+    protected List<Resume> getResumeList() {
         return new ArrayList<>(storage.values());
     }
 
@@ -27,7 +28,6 @@ public class MapUuidStorage extends AbstractStorage {
 
     @Override
     protected void doSave(Resume resume, Object keyUuid) {
-
         storage.put((String) keyUuid, resume);
     }
 
