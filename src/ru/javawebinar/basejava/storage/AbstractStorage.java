@@ -7,31 +7,31 @@ import ru.javawebinar.basejava.model.Resume;
 import java.util.Collections;
 import java.util.List;
 
-public abstract class AbstractStorage implements Storage {
+public abstract class AbstractStorage <SK> implements Storage {
 
-    protected abstract void doSave(Resume resume, Object keyIndexUuid);
+    protected abstract void doSave(Resume resume, SK keyIndexUuid);
 
-    protected abstract void doUpdate(Object keyIndexUuid, Resume resume);
+    protected abstract void doUpdate(SK keyIndexUuid, Resume resume);
 
-    protected abstract void doDelete(Object keyIndexUuid);
+    protected abstract void doDelete(SK keyIndexUuid);
 
-    protected abstract boolean isExist(Object keyIndex);
+    protected abstract boolean isExist(SK keyIndex);
 
-    protected abstract Object getSearchKey(String uuid);
+    protected abstract SK getSearchKey(String uuid);
 
-    protected abstract Resume doGet(Object keyIndexUuid);
+    protected abstract Resume doGet(SK keyIndexUuid);
 
     protected abstract List<Resume> getResumeList();
 
     @Override
     public void save(Resume resume) {
-        Object keyIndexUuid = getIndexIfNotExist(resume.getUuid());
+        SK keyIndexUuid = getIndexIfNotExist(resume.getUuid());
         doSave(resume, keyIndexUuid);
     }
 
     @Override
     public void update(Resume resume) {
-        Object keyIndexUuid = getIndexIfExist(resume.getUuid());
+        SK keyIndexUuid = getIndexIfExist(resume.getUuid());
         doUpdate(keyIndexUuid, resume);
     }
 
@@ -52,14 +52,14 @@ public abstract class AbstractStorage implements Storage {
         return list;
     }
 
-    private Object getIndexIfExist(String uuid) {
-        Object keyIndex = getSearchKey(uuid);
+    private SK getIndexIfExist(String uuid) {
+        SK keyIndex = getSearchKey(uuid);
         if (isExist(keyIndex)) return keyIndex;
         else throw new NotExistStorageException(uuid);
     }
 
-    private Object getIndexIfNotExist(String uuid) {
-        Object keyIndex = getSearchKey(uuid);
+    private SK getIndexIfNotExist(String uuid) {
+        SK keyIndex = getSearchKey(uuid);
         if (isExist(keyIndex)) throw new ExistStorageException(uuid);
         else return keyIndex;
     }

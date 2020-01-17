@@ -9,7 +9,7 @@ import java.util.List;
 /**
  * Array based storage for Resumes.
  */
-public abstract class AbstractArrayStorage extends AbstractStorage {
+public abstract class AbstractArrayStorage extends AbstractStorage <Integer>{
 
     protected static final int STORAGE_LIMIT = 10_000;
     protected int numOfResumes;
@@ -28,7 +28,7 @@ public abstract class AbstractArrayStorage extends AbstractStorage {
      * @return array, contains only Resumes in storage (without null)
      */
     @Override
-    protected List<Resume> getResumeList() {
+    public List<Resume> getResumeList() {
         return Arrays.asList(Arrays.copyOf(storage, numOfResumes));
     }
 
@@ -38,34 +38,33 @@ public abstract class AbstractArrayStorage extends AbstractStorage {
     }
 
     @Override
-    protected void doSave(Resume resume, Object keyIndexUuid) {
+    protected void doSave(Resume resume, Integer keyIndexUuid) {
         if (numOfResumes > storage.length - 1) {
             throw new StorageException("Storage overflow", resume.getUuid());
         } else {
-            insertResume(resume, (Integer) keyIndexUuid);
+            insertResume(resume, keyIndexUuid);
             numOfResumes++;
         }
     }
 
     @Override
-    protected void doDelete(Object index) {
-        fillDeletedResume((Integer) index);
+    protected void doDelete(Integer index) {
+        fillDeletedResume(index);
         storage[numOfResumes - 1] = null;
         numOfResumes--;
     }
-
-    @Override
-    protected Resume doGet(Object index) {
-        return storage[(Integer) index];
+        @Override
+    protected Resume doGet(Integer index) {
+        return storage[index];
     }
 
     @Override
-    protected void doUpdate(Object index, Resume resume) {
-        storage[(Integer) index] = resume;
+    protected void doUpdate(Integer index, Resume resume) {
+        storage[index] = resume;
     }
 
     @Override
-    protected boolean isExist(Object keyIndex) {
-        return ((Integer) keyIndex > -1);
+    protected boolean isExist(Integer keyIndex) {
+        return (keyIndex > -1);
     }
 }
