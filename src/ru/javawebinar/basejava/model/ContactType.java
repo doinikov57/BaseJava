@@ -2,16 +2,21 @@ package ru.javawebinar.basejava.model;
 
 public enum ContactType {
     PHONE("Тел."),
-    SKYPE("skype "),
-    EMAIL("mail"),
-    LINKEDIN("профиль"),
-    GITHUB("профиль"),
-    STACKOVERFLOW("профиль"),
-    HOMEPAGE("Home Page");
+    HOME_PHONE("Домашний тел."),
+    SKYPE("Skype"),
+    MAIL("Почта"),
+    LINKEDIN("Профиль LinkedIn"),
+    GITHUB("Профиль GitHub"),
+    STATCKOVERFLOW("Профиль Stackoverflow"),
+    HOME_PAGE("Домашняя страница");
 
-    private String type;
+    private String title;
 
-    ContactType(String type) {
-        this.type = type;
+    ContactType(String title) {
+        this.title = title;
+    }
+
+    public String getTitle() {
+        return title;
     }
 }

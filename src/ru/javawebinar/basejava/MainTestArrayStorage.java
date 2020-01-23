@@ -17,11 +17,6 @@ public class MainTestArrayStorage {
         Resume r4 = new Resume("dummy", "Olga Nikitina");
 
 
-        r1.setFullName("Dmitry");
-        r2.setFullName("Alena");
-        r3.setFullName("Sergey");
-        r4.setFullName("Olga");
-
         ARRAY_STORAGE.save(r1);
         ARRAY_STORAGE.save(r2);
         ARRAY_STORAGE.save(r3);
