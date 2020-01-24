@@ -1,6 +1,5 @@
-package ru.javawebinar.basejava;
-
 import ru.javawebinar.basejava.model.*;
+
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -102,10 +101,10 @@ public class ResumeTestData {
         position = "Автор проекта.";
         description = "Создание, организация и проведение Java онлайн проектов и стажировок.";
 
-        period = new Company.Period(dateS, dateE, position);
+        period = new Company.Period(dateS, dateE, position, description);
         periods.clear();
         periods.add(period);
-        companies.add(new Company(name, url, periods, description));
+        companies.add(new Company(name, url, periods));
 
         name = "Wrike";
         url = "https://www.wrike.com/";
@@ -115,14 +114,14 @@ public class ResumeTestData {
         description = "Проектирование и разработка онлайн платформы управления проектами " +
                 "Wrike (Java 8 API, Maven, Spring, MyBatis, Guava, Vaadin, PostgreSQL, Redis). " +
                 "Двухфакторная аутентификация, авторизация по OAuth1, OAuth2, JWT SSO.\n";
-        period = new Company.Period(dateS, dateE, position);
+        period = new Company.Period(dateS, dateE, position, description);
         periods.clear();
         periods.add(period);
-        companies.add(new Company(name, url, periods, description));
+        companies.add(new Company(name, url, periods));
 
         name = "RIT Center";
         url = "RIT Center";
-        dateS = LocalDate.of(2012, 04, 1);
+        dateS = LocalDate.of(2012, 4, 1);
         dateE = LocalDate.of(2014, 10, 1);
         position = "Java архитектор";
         description = "Организация процесса разработки системы ERP для разных " +
@@ -136,25 +135,25 @@ public class ResumeTestData {
                 " Apache Commons, Spring security, Spring MVC, Tomcat,WSO2, xcmis," +
                 " OpenCmis, Bonita, Python scripting, Unix shell remote scripting" +
                 " via ssh tunnels, PL/Python\n";
-        period = new Company.Period(dateS, dateE, position);
+        period = new Company.Period(dateS, dateE, position, description);
         periods.clear();
         periods.add(period);
-        companies.add(new Company(name, url, periods, description));
+        companies.add(new Company(name, url, periods));
 
         name = "Luxoft (Deutsche Bank)";
         url = "http://www.luxoft.ru/";
         dateS = LocalDate.of(2010, 12, 1);
-        dateE = LocalDate.of(2012, 04, 1);
+        dateE = LocalDate.of(2012, 4, 1);
         position = "Ведущий программист";
         description = "Участие в проекте Deutsche Bank CRM (WebLogic, Hibernate, Spring, Spring MVC," +
                 " SmartGWT, GWT, Jasper, Oracle). Реализация клиентской и серверной части CRM." +
                 " Реализация RIA-приложения для администрирования, мониторинга и анализа результатов" +
                 " в области алгоритмического трейдинга. JPA, Spring, Spring-MVC, GWT, ExtGWT (GXT)," +
                 " Highstock, Commet, HTML5.";
-        period = new Company.Period(dateS, dateE, position);
+        period = new Company.Period(dateS, dateE, position, description);
         periods.clear();
         periods.add(period);
-        companies.add(new Company(name, url, periods, description));
+        companies.add(new Company(name, url, periods));
 
         testResume.setSection(SectionType.EXPERIENCE, new CompanySection(companies));
 

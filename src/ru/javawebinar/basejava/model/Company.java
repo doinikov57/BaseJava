@@ -5,118 +5,94 @@ import java.util.List;
 import java.util.Objects;
 
 public class Company {
-    private final String companyName;
-    private final String url;
+    private final Link homePage;
     private final List<Period> periods;
-    private final String description;
 
-    public Company(String companyName, String url, List<Period> periods, String description) {
-        this.companyName = Objects.requireNonNull(companyName,
-                "companyName could not be null");
-        this.url = url;
+    public Company(String companyName, String url, List<Period> periods) {
+        Objects.requireNonNull(companyName,"companyName could not be null");
         this.periods = Objects.requireNonNull(periods,
                 "periods could not be null");
-        this.description = Objects.requireNonNull(description,
-                "description could not be null");
+        this.homePage = new Link(companyName, url);
     }
 
     public String getCompanyName() {
-        return companyName;
+        return homePage.getName();
     }
 
     public String getUrl() {
-        return url;
+        return homePage.getUrl();
     }
 
     public List<Period> getPeriods() {
         return periods;
     }
 
-    public String getDescription() {
-        return description;
-    }
-
-    @Override
-    public String toString() {
-        return "Company{" +
-                "companyName='" + companyName + '\'' +
-                ", periods=" + periods +
-                ", description='" + description + '\'' +
-                '}';
-    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof Company)) return false;
+        if (o == null || getClass() != o.getClass()) return false;
         Company company = (Company) o;
-        return companyName.equals(company.companyName) &&
-                Objects.equals(url, company.url) &&
-                periods.equals(company.periods) &&
-                description.equals(company.description);
+        return Objects.equals(homePage, company.homePage) &&
+                Objects.equals(periods, company.periods);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(companyName, url, periods, description);
+        return Objects.hash(homePage, periods);
     }
 
     public static class Period {
-        LocalDate periodStart;
-        LocalDate periodEnd;
-        String position;
+        private final LocalDate periodStart;
+        private final LocalDate periodEnd;
+        private final String position;
+        private final String description;
 
-        public Period(LocalDate periodStart, LocalDate periodEnd, String position) {
+        public Period(LocalDate periodStart, LocalDate periodEnd, String position, String description) {
             this.periodStart = Objects.requireNonNull(periodStart,
                     "periodStart could not be null");
             this.periodEnd = Objects.requireNonNull(periodEnd,
                     "periodEnd could not be null");
             this.position = Objects.requireNonNull(position,
-                    "position could not ");
+                    "position could not be null");
+            this.description = Objects.requireNonNull(position,
+                    "description could not be null");
         }
 
         public LocalDate getPeriodStart() {
             return periodStart;
         }
 
-        public void setPeriodStart(LocalDate periodStart) {
-            this.periodStart = periodStart;
-        }
-
         public LocalDate getPeriodEnd() {
             return periodEnd;
-        }
-
-        public void setPeriodEnd(LocalDate periodEnd) {
-            this.periodEnd = periodEnd;
         }
 
         public String getPosition() {
             return position;
         }
 
-        public void setPosition(String position) {
-            this.position = position;
+        public String getDescription() {
+            return description;
         }
 
         @Override
         public String toString() {
-            return  periodStart + " - " + periodEnd + "  " + position;
+            return periodStart + " - " + periodEnd + "  " + position + "\n" + description;
         }
 
         @Override
         public boolean equals(Object o) {
             if (this == o) return true;
-            if (!(o instanceof Period)) return false;
+            if (o == null || getClass() != o.getClass()) return false;
             Period period = (Period) o;
             return periodStart.equals(period.periodStart) &&
                     periodEnd.equals(period.periodEnd) &&
-                    position.equals(period.position);
+                    position.equals(period.position) &&
+                    description.equals(period.description);
         }
 
         @Override
         public int hashCode() {
-            return Objects.hash(periodStart, periodEnd, position);
+            return Objects.hash(periodStart, periodEnd, position, description);
         }
     }
 }

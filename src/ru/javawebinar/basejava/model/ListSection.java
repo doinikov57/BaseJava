@@ -5,7 +5,7 @@ import java.util.Objects;
 
 public class ListSection extends Section {
 
-    private List<String> paragraphs;
+    private final List<String> paragraphs;
 
     public ListSection(List<String> paragraphs) {
         this.paragraphs = Objects.requireNonNull(paragraphs,
@@ -19,7 +19,7 @@ public class ListSection extends Section {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof ListSection)) return false;
+        if (o == null || getClass() != o.getClass()) return false;
         ListSection that = (ListSection) o;
         return paragraphs.equals(that.paragraphs);
     }
