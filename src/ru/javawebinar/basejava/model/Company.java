@@ -54,8 +54,7 @@ public class Company {
                     "periodEnd could not be null");
             this.position = Objects.requireNonNull(position,
                     "position could not be null");
-            this.description = Objects.requireNonNull(position,
-                    "description could not be null");
+            this.description = position;
         }
 
         public LocalDate getPeriodStart() {
