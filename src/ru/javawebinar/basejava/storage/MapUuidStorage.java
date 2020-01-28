@@ -27,13 +27,13 @@ public class MapUuidStorage extends AbstractStorage <String>{
     }
 
     @Override
-    protected void doSave(Resume resume, String keyUuid) {
-        storage.put( keyUuid, resume);
+    protected void doSave(Resume resume, String searchKey) {
+        storage.put(searchKey, resume);
     }
 
     @Override
-    protected void doUpdate(String keyUuid, Resume resume) {
-        storage.put( keyUuid, resume);
+    protected void doUpdate(String searchKey, Resume resume) {
+        storage.put(searchKey, resume);
     }
 
     @Override
@@ -42,8 +42,8 @@ public class MapUuidStorage extends AbstractStorage <String>{
     }
 
     @Override
-    protected void doDelete(String keyUuid) {
-        storage.remove( keyUuid);
+    protected void doDelete(String searchKey) {
+        storage.remove(searchKey);
     }
 
     @Override

@@ -38,18 +38,18 @@ public abstract class AbstractArrayStorage extends AbstractStorage <Integer>{
     }
 
     @Override
-    protected void doSave(Resume resume, Integer keyIndexUuid) {
+    protected void doSave(Resume resume, Integer searchKey) {
         if (numOfResumes > storage.length - 1) {
             throw new StorageException("Storage overflow", resume.getUuid());
         } else {
-            insertResume(resume, keyIndexUuid);
+            insertResume(resume, searchKey);
             numOfResumes++;
         }
     }
 
     @Override
-    protected void doDelete(Integer index) {
-        fillDeletedResume(index);
+    protected void doDelete(Integer searchKey) {
+        fillDeletedResume(searchKey);
         storage[numOfResumes - 1] = null;
         numOfResumes--;
     }
@@ -59,8 +59,8 @@ public abstract class AbstractArrayStorage extends AbstractStorage <Integer>{
     }
 
     @Override
-    protected void doUpdate(Integer index, Resume resume) {
-        storage[index] = resume;
+    protected void doUpdate(Integer searchKey, Resume resume) {
+        storage[searchKey] = resume;
     }
 
     @Override

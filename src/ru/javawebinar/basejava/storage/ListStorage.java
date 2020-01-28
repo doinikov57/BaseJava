@@ -25,13 +25,13 @@ public class ListStorage extends AbstractStorage <Integer>{
     }
 
     @Override
-    protected void doSave(Resume resume, Integer keyIndexUuid) {
+    protected void doSave(Resume resume, Integer searchKey) {
         storage.add(resume);
     }
 
     @Override
-    protected void doUpdate(Integer index, Resume resume) {
-        storage.set( index, resume);
+    protected void doUpdate(Integer searchKey, Resume resume) {
+        storage.set(searchKey, resume);
     }
 
     @Override
@@ -40,8 +40,8 @@ public class ListStorage extends AbstractStorage <Integer>{
     }
 
     @Override
-    protected void doDelete(Integer index) {
-        storage.remove(( index).intValue());
+    protected void doDelete(Integer searchKey) {
+        storage.remove((searchKey).intValue());
     }
 
     @Override

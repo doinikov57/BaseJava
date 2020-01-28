@@ -9,40 +9,40 @@ import java.util.List;
 
 public abstract class AbstractStorage <SK> implements Storage {
 
-    protected abstract void doSave(Resume resume, SK keyIndexUuid);
+    protected abstract void doSave(Resume resume, SK searchKey);
 
-    protected abstract void doUpdate(SK keyIndexUuid, Resume resume);
+    protected abstract void doUpdate(SK searchKey, Resume resume);
 
-    protected abstract void doDelete(SK keyIndexUuid);
+    protected abstract void doDelete(SK searchKey);
 
-    protected abstract boolean isExist(SK keyIndex);
+    protected abstract boolean isExist(SK searchKey);
 
     protected abstract SK getSearchKey(String uuid);
 
-    protected abstract Resume doGet(SK keyIndexUuid);
+    protected abstract Resume doGet(SK searchKey);
 
     protected abstract List<Resume> getResumeList();
 
     @Override
     public void save(Resume resume) {
-        SK keyIndexUuid = getIndexIfNotExist(resume.getUuid());
-        doSave(resume, keyIndexUuid);
+        SK searchKey = getKeyIfNotExist(resume.getUuid());
+        doSave(resume, searchKey);
     }
 
     @Override
     public void update(Resume resume) {
-        SK keyIndexUuid = getIndexIfExist(resume.getUuid());
-        doUpdate(keyIndexUuid, resume);
+        SK searchKey = getKeyIfExist(resume.getUuid());
+        doUpdate(searchKey, resume);
     }
 
     @Override
     public Resume get(String uuid) {
-        return doGet(getIndexIfExist(uuid));
+        return doGet(getKeyIfExist(uuid));
     }
 
     @Override
     public void delete(String uuid) {
-        doDelete(getIndexIfExist(uuid));
+        doDelete(getKeyIfExist(uuid));
     }
 
     @Override
@@ -52,15 +52,16 @@ public abstract class AbstractStorage <SK> implements Storage {
         return list;
     }
 
-    private SK getIndexIfExist(String uuid) {
+    private SK getKeyIfExist(String uuid) {
         SK keyIndex = getSearchKey(uuid);
         if (isExist(keyIndex)) return keyIndex;
         else throw new NotExistStorageException(uuid);
     }
 
-    private SK getIndexIfNotExist(String uuid) {
+    private SK getKeyIfNotExist(String uuid) {
         SK keyIndex = getSearchKey(uuid);
         if (isExist(keyIndex)) throw new ExistStorageException(uuid);
         else return keyIndex;
     }
+
 }
