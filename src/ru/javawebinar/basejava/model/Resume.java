@@ -43,7 +43,7 @@ public class Resume implements Comparable<Resume>, Serializable {
         return contacts.get(type);
     }
 
-    public void setContact(ContactType type, String contact) {
+    public void addContact(ContactType type, String contact) {
         this.contacts.put(type, contact);
     }
 
@@ -51,7 +51,7 @@ public class Resume implements Comparable<Resume>, Serializable {
         return sections.get(sectionType);
     }
 
-    public void setSection(SectionType type, Section section) {
+    public void addSection(SectionType type, Section section) {
         this.sections.put(type, section);
     }
 

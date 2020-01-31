@@ -3,7 +3,7 @@ package ru.javawebinar.basejava;
 import java.io.File;
 import java.io.IOException;
 
-public class MainFile {
+public class MainFile{
 
     private static void dirPrint(File dir) throws IOException {
         if (!dir.exists()) {
@@ -12,13 +12,12 @@ public class MainFile {
         }
 
         if (dir.isDirectory()) {
-            System.out.println("Directory " + dir);
             for (String fileName : dir.list()) {
                 File dr = new File(dir + "/" + fileName);
                 dirPrint(dr);
             }
         } else
-            System.out.println("\t" + dir.getName());
+            System.out.println(dir.getName());
     }
 
     public static void main(String[] args) {

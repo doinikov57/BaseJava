@@ -16,19 +16,19 @@ public class ResumeTestData {
         String skype1 = "skype:grigory.kislin";
         String email1 = "gkislin@yandex.ru";
 
-        testResume.setContact(ContactType.PHONE, phone1);
-        testResume.setContact(ContactType.SKYPE, skype1);
-        testResume.setContact(ContactType.MAIL, email1);
+        testResume.addContact(ContactType.PHONE, phone1);
+        testResume.addContact(ContactType.SKYPE, skype1);
+        testResume.addContact(ContactType.MAIL, email1);
 
         String objective1 = "Ведущий стажировок и корпоративного обучения" +
                 " по Java Web и Enterprise технологиям.\n";
         Section objectiveSection = new TextSection(objective1);
-        testResume.setSection(SectionType.OBJECTIVE, objectiveSection);
+        testResume.addSection(SectionType.OBJECTIVE, objectiveSection);
 
         String personal1 = "Аналитический склад ума, сильная логика, креативность," +
                 " инициативность. Пурист кода и архитектуры.\n";
         Section personalSection = new TextSection(personal1);
-        testResume.setSection(SectionType.PERSONAL, personalSection);
+        testResume.addSection(SectionType.PERSONAL, personalSection);
 
         List<String> achievements = new ArrayList<>();
         achievements.add("С 2013 года: разработка проектов \"Разработка Web приложения\"," +
@@ -55,7 +55,7 @@ public class ResumeTestData {
         achievements.add("Реализация протоколов по приему платежей всех основных платежных системы" +
                 " России (Cyberplat, Eport, Chronopay, Сбербанк), Белоруcсии(Erip, Osmp) и Никарагуа.");
 
-        testResume.setSection(SectionType.ACHIEVEMENT, new ListSection(achievements));
+        testResume.addSection(SectionType.ACHIEVEMENT, new ListSection(achievements));
 
         List<String> qualification = new ArrayList<>();
 
@@ -82,48 +82,48 @@ public class ResumeTestData {
                 "шаблонов проектрирования, архитектурных шаблонов, UML, " +
                 "функционального программирования\n");
         qualification.add("Родной русский, английский \"upper intermediate\n");
-        testResume.setSection(SectionType.QUALIFICATIONS, new ListSection(qualification));
+        testResume.addSection(SectionType.QUALIFICATIONS, new ListSection(qualification));
 
         List<Company> companies = new ArrayList<>();
-        List<Company.Period> periods = new ArrayList<>();
-        Company.Period period;
+        List<Company.Position> positions = new ArrayList<>();
+        Company.Position position;
         String name;
         String url;
         LocalDate dateS;
         LocalDate dateE;
-        String position;
+        String jobTitle;
         String description;
 
         name = "Java Online Projects";
         url = "http://javaops.ru/";
         dateS = LocalDate.of(2013, 10, 1);
         dateE = LocalDate.now();
-        position = "Автор проекта.";
+        jobTitle = "Автор проекта.";
         description = "Создание, организация и проведение Java онлайн проектов и стажировок.";
 
-        period = new Company.Period(dateS, dateE, position, description);
-        periods.clear();
-        periods.add(period);
-        companies.add(new Company(name, url, periods));
+        position = new Company.Position(dateS, dateE, jobTitle, description);
+        positions.clear();
+        positions.add(position);
+        companies.add(new Company(new Link(name, url), positions));
 
         name = "Wrike";
         url = "https://www.wrike.com/";
         dateS = LocalDate.of(2014, 10, 1);
         dateE = LocalDate.of(2016, 1, 1);
-        position = "Старший разработчик (backend)";
+        jobTitle = "Старший разработчик (backend)";
         description = "Проектирование и разработка онлайн платформы управления проектами " +
                 "Wrike (Java 8 API, Maven, Spring, MyBatis, Guava, Vaadin, PostgreSQL, Redis). " +
                 "Двухфакторная аутентификация, авторизация по OAuth1, OAuth2, JWT SSO.\n";
-        period = new Company.Period(dateS, dateE, position, description);
-        periods.clear();
-        periods.add(period);
-        companies.add(new Company(name, url, periods));
+        position = new Company.Position(dateS, dateE, jobTitle, description);
+        positions.clear();
+        positions.add(position);
+        companies.add(new Company(new Link (name, url), positions));
 
         name = "RIT Center";
         url = "RIT Center";
         dateS = LocalDate.of(2012, 4, 1);
         dateE = LocalDate.of(2014, 10, 1);
-        position = "Java архитектор";
+        jobTitle = "Java архитектор";
         description = "Организация процесса разработки системы ERP для разных " +
                 "окружений: релизная политика, версионирование, ведение CI (Jenkins)," +
                 " миграция базы (кастомизация Flyway), конфигурирование системы" +
@@ -135,27 +135,27 @@ public class ResumeTestData {
                 " Apache Commons, Spring security, Spring MVC, Tomcat,WSO2, xcmis," +
                 " OpenCmis, Bonita, Python scripting, Unix shell remote scripting" +
                 " via ssh tunnels, PL/Python\n";
-        period = new Company.Period(dateS, dateE, position, description);
-        periods.clear();
-        periods.add(period);
-        companies.add(new Company(name, url, periods));
+        position = new Company.Position(dateS, dateE, jobTitle, description);
+        positions.clear();
+        positions.add(position);
+        companies.add(new Company(new Link (name, url), positions));
 
         name = "Luxoft (Deutsche Bank)";
         url = "http://www.luxoft.ru/";
         dateS = LocalDate.of(2010, 12, 1);
         dateE = LocalDate.of(2012, 4, 1);
-        position = "Ведущий программист";
+        jobTitle = "Ведущий программист";
         description = "Участие в проекте Deutsche Bank CRM (WebLogic, Hibernate, Spring, Spring MVC," +
                 " SmartGWT, GWT, Jasper, Oracle). Реализация клиентской и серверной части CRM." +
                 " Реализация RIA-приложения для администрирования, мониторинга и анализа результатов" +
                 " в области алгоритмического трейдинга. JPA, Spring, Spring-MVC, GWT, ExtGWT (GXT)," +
                 " Highstock, Commet, HTML5.";
-        period = new Company.Period(dateS, dateE, position, description);
-        periods.clear();
-        periods.add(period);
-        companies.add(new Company(name, url, periods));
+        position = new Company.Position(dateS, dateE, jobTitle, description);
+        positions.clear();
+        positions.add(position);
+        companies.add(new Company(new Link(name, url), positions));
 
-        testResume.setSection(SectionType.EXPERIENCE, new CompanySection(companies));
+        testResume.addSection(SectionType.EXPERIENCE, new CompanySection(companies));
 
         for (ContactType type : ContactType.values()
         ) {
