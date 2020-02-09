@@ -2,6 +2,7 @@ package ru.javawebinar.basejava.model;
 
 import ru.javawebinar.basejava.util.DateUtil;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.Month;
 import java.util.Arrays;
@@ -10,9 +11,13 @@ import java.util.Objects;
 
 import static ru.javawebinar.basejava.util.DateUtil.NOW;
 
-public class Company {
+public class Company implements Serializable {
     private final Link homePage;
     private final List<Position> positions;
+
+    public Company(String companyName, Position... positions) {
+        this(new Link(companyName,""), Arrays.asList(positions));
+    }
 
     public Company(String companyName, String url, Position... positions) {
         this(new Link(companyName, url), Arrays.asList(positions));
@@ -54,7 +59,7 @@ public class Company {
         return Objects.hash(homePage, positions);
     }
 
-    public static class Position {
+    public static class Position implements Serializable{
         private final LocalDate periodStart;
         private final LocalDate periodEnd;
         private final String jobTitle;
