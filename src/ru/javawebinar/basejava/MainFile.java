@@ -44,8 +44,7 @@ public class MainFile {
         if (dir.isDirectory()) {
             System.out.println(tab + "\\" + dir.getName());
             tab = tab + "  ";
-            for (String fileName : dir.list()) {
-                File dr = new File(dir + "/" + fileName);
+            for (File dr : dir.listFiles()) {
                 deepDirPrint2(dr, tab);
             }
         } else {

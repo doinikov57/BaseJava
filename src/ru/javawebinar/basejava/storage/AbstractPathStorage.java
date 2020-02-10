@@ -52,7 +52,7 @@ public abstract class AbstractPathStorage extends AbstractStorage<Path> {
         try {
             Files.delete(path);
         } catch (IOException e) {
-            throw new StorageException("File delete error ", path.getFileName().toString(),e);
+            throw new StorageException("File delete error ", path.getFileName().toString(), e);
         }
     }
 
@@ -77,13 +77,7 @@ public abstract class AbstractPathStorage extends AbstractStorage<Path> {
 
     @Override
     protected List<Resume> getResumeList() {
-//        List<Resume> list = new ArrayList<>();
-        return checkDir().map(path -> doGet(path)).collect(Collectors.toList());
-//        Iterator iterator = directory.iterator();
-//        while (iterator.hasNext()) {
-//            list.add(doGet((Path) iterator.next()));
-//        }
-//        return list;
+        return checkDir().map(this::doGet).collect(Collectors.toList());
     }
 
     @Override
@@ -97,12 +91,10 @@ public abstract class AbstractPathStorage extends AbstractStorage<Path> {
     }
 
     private Stream<Path> checkDir() {
-        Stream<Path> files;
         try {
-            files = Files.list(directory);
+            return Files.list(directory);
         } catch (IOException e) {
             throw new StorageException("Directory/path read error", null, e);
         }
-        return files;
     }
 }

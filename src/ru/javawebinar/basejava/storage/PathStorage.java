@@ -78,7 +78,7 @@ public class PathStorage extends AbstractStorage<Path> {
 
     @Override
     protected List<Resume> getResumeList() {
-        return checkDir().map(path -> doGet(path)).collect(Collectors.toList());
+        return checkDir().map(this::doGet).collect(Collectors.toList());
     }
 
     @Override
@@ -92,12 +92,10 @@ public class PathStorage extends AbstractStorage<Path> {
     }
 
     private Stream<Path> checkDir() {
-        Stream<Path> files;
         try {
-            files = Files.list(directory);
+            return Files.list(directory);
         } catch (IOException e) {
             throw new StorageException("Directory/path read error", null, e);
         }
-        return files;
     }
 }
