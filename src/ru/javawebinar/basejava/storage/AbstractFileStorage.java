@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-public abstract class AbstractFileStorage extends AbstractStorage<File> {
+public abstract class  AbstractFileStorage extends AbstractStorage<File> {
 
     private final File directory;
 
@@ -102,7 +102,7 @@ public abstract class AbstractFileStorage extends AbstractStorage<File> {
     private File[] checkDir () {
         File[] files = directory.listFiles();
         if (files == null) {
-            throw new StorageException("Directory read error", null);
+            throw new StorageException("Directory read error");
         }
         return files;
     }
