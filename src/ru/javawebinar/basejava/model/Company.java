@@ -1,7 +1,11 @@
 package ru.javawebinar.basejava.model;
 
 import ru.javawebinar.basejava.util.DateUtil;
+import ru.javawebinar.basejava.util.LocalDateAdapter;
 
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.Month;
@@ -11,12 +15,17 @@ import java.util.Objects;
 
 import static ru.javawebinar.basejava.util.DateUtil.NOW;
 
+@XmlAccessorType(XmlAccessType.FIELD)
 public class Company implements Serializable {
-    private final Link homePage;
-    private final List<Position> positions;
+    private Link homePage;
+    private List<Position> positions;
 
+    private static final long serialVersionUID = 1L;
+
+    public Company() {
+    }
     public Company(String companyName, Position... positions) {
-        this(new Link(companyName,""), Arrays.asList(positions));
+        this(new Link(companyName, ""), Arrays.asList(positions));
     }
 
     public Company(String companyName, String url, Position... positions) {
@@ -28,12 +37,8 @@ public class Company implements Serializable {
         this.positions = positions;
     }
 
-    public String getCompanyName() {
-        return homePage.getName();
-    }
-
-    public String getUrl() {
-        return homePage.getUrl();
+    public Link getHomePage() {
+        return homePage;
     }
 
     public List<Position> getPositions() {
@@ -59,11 +64,17 @@ public class Company implements Serializable {
         return Objects.hash(homePage, positions);
     }
 
-    public static class Position implements Serializable{
-        private final LocalDate periodStart;
-        private final LocalDate periodEnd;
-        private final String jobTitle;
-        private final String description;
+    @XmlAccessorType(XmlAccessType.FIELD)
+    public static class Position implements Serializable {
+        @XmlJavaTypeAdapter(LocalDateAdapter.class)
+        private LocalDate periodStart;
+        @XmlJavaTypeAdapter(LocalDateAdapter.class)
+        private LocalDate periodEnd;
+        private String jobTitle;
+        private String description;
+
+        public Position() {
+        }
 
         public Position(int yearStart, Month monthStart, int yearEnd, Month monthEnd,
                         String jobTitle, String description) {
@@ -82,7 +93,7 @@ public class Company implements Serializable {
                     "periodEnd could not be null");
             this.jobTitle = Objects.requireNonNull(position,
                     "jobTitle could not be null");
-            this.description = description;
+            this.description = description == null?  "" : description;
         }
 
         public LocalDate getPeriodStart() {
@@ -109,12 +120,12 @@ public class Company implements Serializable {
         @Override
         public boolean equals(Object o) {
             if (this == o) return true;
-            if (o == null || getClass() != o.getClass()) return false;
+            if (!(o instanceof Position)) return false;
             Position position = (Position) o;
             return periodStart.equals(position.periodStart) &&
                     periodEnd.equals(position.periodEnd) &&
-                    this.jobTitle.equals(position.jobTitle) &&
-                    description.equals(position.description);
+                    jobTitle.equals(position.jobTitle) &&
+                    Objects.equals(description, position.description);
         }
 
         @Override

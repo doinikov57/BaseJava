@@ -3,7 +3,12 @@ package ru.javawebinar.basejava.model;
 import java.util.Objects;
 
 public class TextSection extends Section {
-    private final String text;
+    private static final long serialVersionUID = 1L;
+
+    private String text;
+
+    public TextSection() {
+    }
 
     public TextSection(String text) {
         this.text = Objects.requireNonNull(text,

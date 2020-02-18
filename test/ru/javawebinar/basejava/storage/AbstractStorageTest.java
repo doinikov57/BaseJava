@@ -11,7 +11,10 @@ import java.time.Month;
 import java.util.Arrays;
 import java.util.List;
 
+import static junit.framework.TestCase.assertEquals;
+
 public abstract class AbstractStorageTest {
+    protected static final String RESUME_DIR = "C:\\Users\\doinikov\\basejava\\ResumeDir";
 
     protected Storage storage;
     private final static String UUID_1 = "uuid1";
@@ -47,7 +50,7 @@ public abstract class AbstractStorageTest {
                 ("Java", "SQL", "JavaScript"));
         R1.addSection(SectionType.EXPERIENCE, new CompanySection(
                 new Company("Company1", "HTTP//Company1.ru",
-                        new Company.Position(2008, Month.JULY,
+                        new Company.Position(2008, Month.FEBRUARY,
                                 "position11", "description11"),
                         new Company.Position(2005, Month.JULY, 2008, Month.JULY,
                                 "position12", "description12")),
@@ -59,14 +62,14 @@ public abstract class AbstractStorageTest {
                         new Company.Position(2001, Month.SEPTEMBER, 2005, Month.JUNE,
                                 "aspirant ", "IT Faculty"),
                         new Company.Position(1996, Month.SEPTEMBER, 2001, Month.JULY,
-                                "student","IT faculty"))));
-        R2.addContact(ContactType.PHONE,"223322");
-        R2.addContact(ContactType.MAIL,"mail2@ya.ru");
+                                "student", "IT faculty"))));
+        R2.addContact(ContactType.PHONE, "223322");
+        R2.addContact(ContactType.MAIL, "mail2@ya.ru");
         R1.addSection(SectionType.EXPERIENCE,
                 new CompanySection(
-                        new Company("Company3","HTTP//Company3.ru",
+                        new Company("Company3", "HTTP//Company3.ru",
                                 new Company.Position(2000, Month.NOVEMBER, 2002, Month.MAY,
-                                        "technician",null))));
+                                        "technician", null))));
 
 
     }
@@ -112,12 +115,10 @@ public abstract class AbstractStorageTest {
     }
 
     @Test
-    public void getAll() {
-        Resume[] resumeTestGA = {R2, R1, R3};
-        List<Resume> listTestGA = Arrays.asList(resumeTestGA);
-        Resume[] resumeGA = storage.getAllSorted().toArray(new Resume[0]);
-        Assert.assertArrayEquals(resumeTestGA, resumeGA);
-        //TODO assertTrue(Arrays.equals(toSort, sortedInts));
+    public void getAllSorted() throws Exception {
+        List<Resume> list = storage.getAllSorted();
+        assertEquals(3, list.size());
+        assertEquals(list, Arrays.asList(R2, R1, R3));
     }
 
     @Test
@@ -132,7 +133,7 @@ public abstract class AbstractStorageTest {
 
     @Test
     public void get() {
-        Assert.assertEquals(R2, storage.get(UUID_2));
+        Assert.assertEquals(R1, storage.get(UUID_1));
     }
 
     @Test(expected = ExistStorageException.class)
