@@ -33,9 +33,7 @@ public class DataStreamSerializer implements StreamSerializer {
                         break;
                     case ACHIEVEMENT:
                     case QUALIFICATIONS:
-                        writeCollection(dos, ((ListSection) s).getParagraphs(), str -> {
-                            dos.writeUTF(str);
-                        });
+                        writeCollection(dos, ((ListSection) s).getParagraphs(), dos::writeUTF);
                         break;
                     case EXPERIENCE:
                     case EDUCATION:
@@ -44,7 +42,7 @@ public class DataStreamSerializer implements StreamSerializer {
                             Link link = company.getHomePage();
                             dos.writeUTF(link.getName());
                             dos.writeUTF(link.getUrl());
-                            writeCollection(dos, (company.getPositions()), position -> {
+                            writeCollection(dos, company.getPositions(), position -> {
                                 serializeLocalDate(dos, position.getPeriodStart());
                                 serializeLocalDate(dos, position.getPeriodEnd());
                                 dos.writeUTF(position.getJobTitle());
@@ -57,12 +55,14 @@ public class DataStreamSerializer implements StreamSerializer {
         }
     }
 
-    interface ConsumerWithException<T> {
-        void accept(T element) throws IOException;
+    @FunctionalInterface
+    interface Process {
+        void execute() throws IOException;
     }
 
-    interface SupplierWithException<T> {
-        T get() throws IOException;
+    @FunctionalInterface
+    interface ConsumerWithException<T> {
+        void accept(T element) throws IOException;
     }
 
     private <T> void writeCollection(DataOutputStream dos, Collection<T> cl, ConsumerWithException<T> writer)
@@ -73,34 +73,14 @@ public class DataStreamSerializer implements StreamSerializer {
         }
     }
 
-    private <T> Collection<T> readCollection(DataInputStream dis, Collection<T> cl,
-                                             SupplierWithException reader) throws IOException {
-        int n = dis.readInt();
-        for (int i = 0; i < n; i++) {
-            cl.add((T) reader.get());
-        }
-        return cl;
-    }
-//    private <T> T readCollection(DataInputStream dis, SupplierWithException reader) throws IOException {
-//        int n = dis.readInt();
-//        for (int i = 0; i < n; i++) {
-//           return (T) reader.get();
-//    }
-
     @Override
     public Resume readFile(InputStream is) throws IOException {
         try (DataInputStream dis = new DataInputStream(is)) {
             String uuid = dis.readUTF();
             String fullName = dis.readUTF();
             Resume resume = new Resume(uuid, fullName);
-            int numOfCont = dis.readInt();
-            for (int i = 0; i < numOfCont; i++) {
-                resume.addContact(ContactType.valueOf(dis.readUTF()), dis.readUTF());
-            }
-
-            Map<SectionType, Section> sections;
-            int numOfSections = dis.readInt();
-            for (int i = 0; i < numOfSections; i++) {
+            readElements(dis, () -> resume.addContact(ContactType.valueOf(dis.readUTF()), dis.readUTF()));
+            readElements(dis, () -> {
                 SectionType sectionType = SectionType.valueOf(dis.readUTF());
                 switch (sectionType) {
                     case PERSONAL:
@@ -110,34 +90,27 @@ public class DataStreamSerializer implements StreamSerializer {
                     case ACHIEVEMENT:
                     case QUALIFICATIONS:
                         List<String> list = new ArrayList<>();
-                        int numOfParagraphs = dis.readInt();
-                        for (int j = 0; j < numOfParagraphs; j++) {
-                            list.add(dis.readUTF());
-                        }
+                        readElements(dis, () -> list.add(dis.readUTF()));
                         resume.addSection(sectionType, new ListSection(list));
                         break;
                     case EXPERIENCE:
                     case EDUCATION:
                         List<Company> companies = new ArrayList<>();
-                        int numOfCompanies = dis.readInt();
-                        for (int j = 0; j < numOfCompanies; j++) {
+                        readElements(dis, () -> {
                             Link link = new Link(dis.readUTF(), dis.readUTF());
                             List<Company.Position> positions = new ArrayList<>();
-                            int numOfPositions = dis.readInt();
-                            for (int k = 0; k < numOfPositions; k++) {
-                                positions.add(new Company.Position(
-                                        LocalDate.of(dis.readInt(),dis.readInt(), 1),
-                                        LocalDate.of(dis.readInt(), dis.readInt(), 1),
-                                        dis.readUTF(),
-                                        dis.readUTF()
-                                ));
-                            }
+                            readElements(dis, () -> positions.add(new Company.Position(
+                                    LocalDate.of(dis.readInt(), dis.readInt(), 1),
+                                    LocalDate.of(dis.readInt(), dis.readInt(), 1),
+                                    dis.readUTF(),
+                                    dis.readUTF()
+                            )));
                             companies.add(new Company(link, positions));
-                        }
+                        });
                         resume.addSection(sectionType, new CompanySection(companies));
                         break;
                 }
-            }
+            });
             return resume;
         }
     }
@@ -147,4 +120,10 @@ public class DataStreamSerializer implements StreamSerializer {
         dos.writeInt(ld.getMonthValue());
     }
 
+    private void readElements(DataInputStream dis, Process process) throws IOException {
+        int num = dis.readInt();
+        for (int j = 0; j < num; j++) {
+            process.execute();
+        }
+    }
 }

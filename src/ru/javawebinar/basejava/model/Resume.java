@@ -104,3 +104,4 @@ public class Resume implements Comparable<Resume>, Serializable {
         return Objects.hash(uuid, fullName, contacts, sections);
     }
 }
+

@@ -65,7 +65,7 @@ public abstract class AbstractStorageTest {
                                 "student", "IT faculty"))));
         R2.addContact(ContactType.PHONE, "223322");
         R2.addContact(ContactType.MAIL, "mail2@ya.ru");
-        R1.addSection(SectionType.EXPERIENCE,
+        R2.addSection(SectionType.EXPERIENCE,
                 new CompanySection(
                         new Company("Company3", "HTTP//Company3.ru",
                                 new Company.Position(2000, Month.NOVEMBER, 2002, Month.MAY,
