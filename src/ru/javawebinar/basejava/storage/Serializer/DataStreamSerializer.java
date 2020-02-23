@@ -21,8 +21,7 @@ public class DataStreamSerializer implements StreamSerializer {
                 dos.writeUTF(contact.getValue());
             });
             Map<SectionType, Section> sections = r.getSections();
-            dos.writeInt(sections.size());
-            for (Map.Entry<SectionType, Section> entry : sections.entrySet()) {
+            writeCollection(dos, sections.entrySet(), entry -> {
                 SectionType sectionType = entry.getKey();
                 Section s = entry.getValue();
                 dos.writeUTF(sectionType.name());
@@ -37,7 +36,6 @@ public class DataStreamSerializer implements StreamSerializer {
                         break;
                     case EXPERIENCE:
                     case EDUCATION:
-                        CompanySection cs = ((CompanySection) s);
                         writeCollection(dos, ((CompanySection) s).getCompanies(), company -> {
                             Link link = company.getHomePage();
                             dos.writeUTF(link.getName());
@@ -51,25 +49,7 @@ public class DataStreamSerializer implements StreamSerializer {
                         });
                         break;
                 }
-            }
-        }
-    }
-
-    @FunctionalInterface
-    interface Process {
-        void execute() throws IOException;
-    }
-
-    @FunctionalInterface
-    interface ConsumerWithException<T> {
-        void accept(T element) throws IOException;
-    }
-
-    private <T> void writeCollection(DataOutputStream dos, Collection<T> cl, ConsumerWithException<T> writer)
-            throws IOException {
-        dos.writeInt(cl.size());
-        for (T elm : cl) {
-            writer.accept(elm);
+            });
         }
     }
 
@@ -100,8 +80,8 @@ public class DataStreamSerializer implements StreamSerializer {
                             Link link = new Link(dis.readUTF(), dis.readUTF());
                             List<Company.Position> positions = new ArrayList<>();
                             readElements(dis, () -> positions.add(new Company.Position(
-                                    LocalDate.of(dis.readInt(), dis.readInt(), 1),
-                                    LocalDate.of(dis.readInt(), dis.readInt(), 1),
+                                    LocalDate.of(dis.readInt(), dis.readInt(), dis.readInt()),
+                                    LocalDate.of(dis.readInt(), dis.readInt(), dis.readInt()),
                                     dis.readUTF(),
                                     dis.readUTF()
                             )));
@@ -115,9 +95,28 @@ public class DataStreamSerializer implements StreamSerializer {
         }
     }
 
+    @FunctionalInterface
+    interface ConsumerWithException<T> {
+        void accept(T element) throws IOException;
+    }
+
+    @FunctionalInterface
+    interface Process {
+        void execute() throws IOException;
+    }
+
+    private <T> void writeCollection(DataOutputStream dos, Collection<T> cl, ConsumerWithException<T> writer)
+            throws IOException {
+        dos.writeInt(cl.size());
+        for (T elm : cl) {
+            writer.accept(elm);
+        }
+    }
+
     private void serializeLocalDate(DataOutputStream dos, LocalDate ld) throws IOException {
         dos.writeInt(ld.getYear());
         dos.writeInt(ld.getMonthValue());
+        dos.writeInt(ld.getDayOfMonth());
     }
 
     private void readElements(DataInputStream dis, Process process) throws IOException {
