@@ -50,6 +50,6 @@ public class MainStreams {
 
         Map<Boolean, List<Integer>> map = integers.stream()
                 .collect(Collectors.partitioningBy((p) -> p % 2 == 0));
-        return (map.get(!(map.get(false).size() %2 == 0)));
+        return map.get(!(map.get(false).size() %2 == 0));
     }
 }
