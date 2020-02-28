@@ -29,7 +29,7 @@ public class MainStreams {
         return (Arrays.stream(values)
                 .distinct()
                 .sorted()
-                .reduce(0, (acc, x) -> (acc + x) * 10)) / 10;
+                .reduce(0, (acc, x) -> acc * 10 + x));
     }
 
     /*реализовать метод List<Integer> oddOrEven(List<Integer> integers)
@@ -41,13 +41,8 @@ public class MainStreams {
     private static List<Integer> oddOrEven(List<Integer> integers) {
         int odd = (integers.stream()
                 .reduce(0, (acc, x) -> acc + x)) % 2;
-        if (odd == 0) {
-            return integers.stream()
-                    .filter(x -> x % 2 == 1)
-                    .collect(Collectors.toList());
-        }
         return integers.stream()
-                .filter(x -> x % 2 == 0)
+                .filter (x -> x % 2 == 1 - odd)
                 .collect(Collectors.toList());
     }
 
@@ -55,6 +50,6 @@ public class MainStreams {
 
         Map<Boolean, List<Integer>> map = integers.stream()
                 .collect(Collectors.partitioningBy((p) -> p % 2 == 0));
-        return (map.get(false).size() % 2 == 0)? map.get(false): map.get(true);
+        return (map.get(!(map.get(false).size() %2 == 0)));
     }
 }
